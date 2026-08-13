@@ -5,7 +5,7 @@
 - 默认「深色 BI 科技风」主题，可选浅色简约等多套主题
 - 支持从**一句话需求、布局描述、参考图、需求文档**四种输入生成
 - 先产出**高保真 HTML 原型**（含真实感 mock 数据与假交互，双击即可在浏览器查看）
-- 满意后可一键转 **Vue3 + ECharts + LESS** 工程代码
+- 满意后可一键转 **Vue3 + Element Plus + ECharts + LESS + Pinia（Vite 构建）** 工程代码
 
 ## 效果预览
 
@@ -40,7 +40,7 @@ npx skills add zxc15001209233/bi-dashboard-skill -g
    ↓
 生成 HTML 高保真原型（mock 数据 + 假交互）
    ↓
-（可选）转 Vue3 + ECharts + LESS 工程代码
+（可选）转 Vue3 + Element Plus + ECharts + LESS + Pinia 工程代码
 ```
 
 小白用户只需要说清楚"这是给谁看的、想看到什么数据"，布局、配色、图表选型全部由 skill 内置规范兜底。
@@ -50,7 +50,7 @@ npx skills add zxc15001209233/bi-dashboard-skill -g
 | 格式 | 说明 | 适合场景 |
 |------|------|----------|
 | HTML 单文件 | 零依赖（ECharts 走 CDN），双击浏览器即看 | 设计评审、快速演示、给领导看效果 |
-| Vue3 工程代码 | Vue3 + ECharts + LESS，组件化结构 + 屏幕适配 | 正式项目开发 |
+| Vue3 工程代码 | Vue3 + Element Plus + ECharts + LESS + Pinia（Vite 构建），组件化结构 + 屏幕适配 | 正式项目开发 |
 
 ## 文件说明
 

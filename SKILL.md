@@ -1,6 +1,6 @@
 ---
 name: bi-dashboard-generator
-description: 生成风格统一的数据可视化大屏（深色 BI 科技风为主，可选多主题）。支持从一句话需求、布局描述、参考图或需求文档生成高保真 HTML 原型（含 mock 数据与假交互），可选转 Vue3 + ECharts + LESS 工程代码。当用户要求创建数据大屏、可视化大屏、驾驶舱、BI 看板、监控大屏、dashboard 时使用。
+description: 生成风格统一的数据可视化大屏（深色 BI 科技风为主，可选多主题）。支持从一句话需求、布局描述、参考图或需求文档生成高保真 HTML 原型（含 mock 数据与假交互），可选转 Vue3 + Element Plus + ECharts + LESS + Pinia（Vite 构建）工程代码。当用户要求创建数据大屏、可视化大屏、驾驶舱、BI 看板、监控大屏、dashboard 时使用。
 ---
 
 # 可视化大屏生成器
@@ -57,7 +57,7 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 用 AskQuestion（或对话）确认，**每项都有推荐默认值，用户全选默认也能得到完整大屏**：
 
 1. 主题：深色 BI 科技风（推荐）/ 浅色简约 —— token 见 [themes.md](themes.md)
-2. 输出形式：单文件 HTML 原型（推荐，双击即看）/ Vue3 + ECharts + LESS 工程代码
+2. 输出形式：单文件 HTML 原型（推荐，双击即看）/ Vue3 + Element Plus + ECharts + LESS + Pinia（Vite 构建）工程代码
 3. 分辨率基准：1920×1080（推荐）/ 其他
 
 用户在需求中已表明的不重复问。
@@ -73,7 +73,10 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 - 多屏项目：逐屏生成独立 HTML，穿透跳转用相对链接串联（`<a href="secondary.html">`）
 
 **Vue 模式**：
+- 技术栈固定：**Vue3（Composition API）+ Element Plus + ECharts + LESS + Pinia，Vite 构建**；Element Plus 按需自动引入（unplugin-auto-import + unplugin-vue-components）
 - 基于 [templates/screen.vue](templates/screen.vue) 骨架，组件化拆分：面板容器（PanelBox 模式）+ 图表组件（option 工厂纯函数）+ 屏幕适配 composable
+- 控件类 UI（下拉/日期选择/弹窗/表格分页）用 Element Plus 组件；**深色主题必须用 token 覆盖其默认白底样式**（下拉面板、输入框、弹窗、date-picker 浮层），禁止白底穿帮
+- 全局状态用 Pinia：时间上下文（statMonth 模式）、筛选条件跨组件联动、refreshToken 变更广播
 - 色值放 `variables.less` + `colors.js` 双 token 文件（CSS 用 LESS 变量、ECharts 用 JS 常量）
 - API 层留占位函数 + mock 开关，注释标明字段映射
 
