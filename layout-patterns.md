@@ -68,23 +68,22 @@ CSS：`display: grid; grid-template-columns: 24% 1fr 24%; gap: 14px;`，列内�
 
 **选骨架规则**：指标+图表总数 ≥8 → A；核心 KPI 为主、图表 3–4 个 → B；有一个绝对核心图（地图/大趋势）→ A 或 C。用户未指定时按此规则选并在方案确认单中说明。
 
-## 屏幕适配（整页等比缩放，两种模式统一用这套）
+## 屏幕适配（整页 transform: scale，两种模式统一用这套）
 
-原理：画布固定设计尺寸，用 `transform: scale` 整体缩放居中——图表文字比例永不错乱，优于 rem 方案。
+原理：画布固定设计尺寸，用 `transform: scale` 整体缩放——图表文字比例关系不乱，优于 rem 方案。
+
+**默认：拉伸铺满**。横竖独立缩放，任何屏幕都 100% 占满、永不留边。常见屏幕（16:9 / 16:10）拉伸幅度肉眼基本无感；大屏产品"铺满"优先级高于"零变形"。
 
 ```js
-const DESIGN_W = 1920, DESIGN_H = 1080, MAX_STRETCH = 0.15;
+const DESIGN_W = 1920, DESIGN_H = 1080;
 function adapt() {
-  const vw = innerWidth, vh = innerHeight;
-  const sx = vw / DESIGN_W, sy = vh / DESIGN_H;
-  const aspectDelta = Math.abs((vw / vh) / (DESIGN_W / DESIGN_H) - 1);
-  const el = document.getElementById('screen');
-  // 纵横比接近时轻微拉伸铺满；偏差大时等比缩放居中留边
-  const [x, y] = aspectDelta <= MAX_STRETCH ? [sx, sy] : [Math.min(sx, sy), Math.min(sx, sy)];
-  el.style.transform = `translate(-50%, -50%) scale(${x}, ${y})`;
+  const x = innerWidth / DESIGN_W, y = innerHeight / DESIGN_H;
+  document.getElementById('screen').style.transform = `translate(-50%,-50%) scale(${x},${y})`;
 }
 addEventListener('resize', adapt); adapt();
 ```
+
+**备选：等比留边**。仅当用户明确要求"绝对不能变形"（如展厅异形屏、LED 拼接屏物理比例固定）时使用：取 `Math.min(sx, sy)` 统一缩放并居中，留边区域背景必须与画布底色完全相同（`--bg-page`），避免出现突兀黑边。
 
 配套 CSS：
 

@@ -118,14 +118,10 @@
 </div>
 
 <script>
-/* ===== 屏幕适配：整页等比缩放（layout-patterns.md） ===== */
-const DESIGN_W = 1920, DESIGN_H = 1080, MAX_STRETCH = 0.15;
+/* ===== 屏幕适配：拉伸铺满（默认，layout-patterns.md）。任何屏幕都 100% 占满，接受轻微拉伸 ===== */
+const DESIGN_W = 1920, DESIGN_H = 1080;
 function adapt() {
-  const vw = innerWidth, vh = innerHeight;
-  const sx = vw / DESIGN_W, sy = vh / DESIGN_H;
-  const d = Math.abs((vw / vh) / (DESIGN_W / DESIGN_H) - 1);
-  const s = Math.min(sx, sy);
-  const [x, y] = d <= MAX_STRETCH ? [sx, sy] : [s, s];
+  const x = innerWidth / DESIGN_W, y = innerHeight / DESIGN_H;
   document.getElementById('screen').style.transform = `translate(-50%,-50%) scale(${x},${y})`;
 }
 addEventListener('resize', () => { adapt(); charts.forEach(c => c.resize()); });
