@@ -115,3 +115,29 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
 | 表格排序 | 点表头切换升降序（mock 数据前端排序） |
 
 所有可点击元素必须有 `cursor: pointer` + hover 高亮（边框或底色变亮），让演示者一眼看出哪里能点。
+
+## 骨架预览模式（SKILL.md Step 3.5 用）
+
+用于生成前确认区域划分是否理解正确，不需要额外维护一套模板——**沿用最终版的 grid/flex 结构**，仅去掉主题 token 上色、图表 option、mock 数据，替换成灰框 + 用途标签：
+
+```css
+.skeleton-box {
+  border: 2px dashed #6b7280; background: #1f2937; color: #9ca3af;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; min-height: 60px;
+}
+```
+
+```html
+<!-- 例：三列式骨架预览，网格与最终版一致，仅内容换成区块用途标签 -->
+<div class="layout"> <!-- grid-template-columns: 24% 1fr 24%，与最终版相同 -->
+  <div class="col">
+    <div class="skeleton-box">KPI 卡 ×4</div>
+    <div class="skeleton-box">次级图表</div>
+  </div>
+  <div class="skeleton-box" style="flex:1">核心趋势图</div>
+  <div class="skeleton-box">排行 Top10</div>
+</div>
+```
+
+用户确认骨架无误后，Step 4 直接在同一份 grid 上套用主题 token、图表 option 与 mock 数据，不重新排布区块；用户若指出区域不对（如"左右列宽度反了""少了一块"），仅调整 grid 比例/区块数量，不进入配色和图表细节讨论。
