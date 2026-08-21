@@ -1,39 +1,113 @@
-# bi-dashboard-skill
+# bi-dashboard-generator
 
-#### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+一个 Cursor Agent Skill：**自动生成风格统一的数据可视化大屏**。
 
-#### 软件架构
-软件架构说明
+- 默认「深色 BI 科技风」主题，可选浅色简约等多套主题
+- 支持从**一句话需求、布局描述、参考图、需求文档**四种输入生成
+- 先产出**高保真 HTML 原型**（含真实感 mock 数据与假交互，双击即可在浏览器查看）
+- 满意后可一键转 **Vue3 + Element Plus + ECharts + LESS + Pinia（Vite 构建）** 工程代码
 
+仓库：
 
-#### 安装教程
+- Gitee：https://gitee.com/zxc19890923/bi-dashboard-skill
+- GitHub：https://github.com/zxc15001209233/bi-dashboard-skill
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## 效果预览
 
-#### 使用说明
+<!-- TODO: 补一张生成效果截图 -->
+> 示例：对 AI 说「帮我生成一个奶茶店销售大屏」，几分钟后得到一个可直接打开的三栏式大屏 HTML 原型。
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## 安装
 
-#### 参与贡献
+```bash
+# Gitee（国内推荐）
+npx skills add https://gitee.com/zxc19890923/bi-dashboard-skill.git
+npx skills add https://gitee.com/zxc19890923/bi-dashboard-skill.git -g
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+# GitHub
+npx skills add zxc15001209233/bi-dashboard-skill
+npx skills add zxc15001209233/bi-dashboard-skill -g
+```
 
+第一条装到当前项目，带 `-g` 的为全局安装（所有项目可用）。
 
-#### 特技
+## 使用方式
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+安装后在 Cursor 对话中直接描述需求即可触发，例如：
+
+- 「帮我生成一个奶茶店销售大屏」（一句话，AI 会主动提方案）
+- 「上面放 4 个 KPI 卡片，左边销售趋势折线图，右边门店排行」（自己描述布局）
+- 发一张参考图：「照这个样子做一个」
+- 发需求文档：「按这份文档生成大屏原型」
+
+之后 AI 会按固定流程走：
+
+```
+确认需求（业务识别 / 主题 / 输出格式）
+   ↓
+提出布局方案（文字示意图 + 缺失项/疑点清单，确认后再动手）
+   ↓
+（复杂/多页项目）先出灰框骨架预览，确认区域划分再继续
+   ↓
+生成 HTML 高保真原型（mock 数据 + 假交互）
+   ↓
+独立审核（对照确认单/参考图，结论写入生成物旁 review/）
+   ↓
+（可选）转 Vue3 + Element Plus + ECharts + LESS + Pinia 工程代码
+   ↓
+再审 Vue（能跑起来、与 HTML 1:1、深色浮层不穿帮）
+```
+
+小白用户只需要说清楚"这是给谁看的、想看到什么数据"，布局、配色、图表选型全部由 skill 内置规范兜底。
+
+## 生成准确性保障
+
+风格统一只是第一层，能不能"准确"还原你的描述/文档/参考图是另一层。这个 skill 针对三类输入分别做了保障：
+
+| 输入 | 准确性保障 |
+|------|-----------|
+| 一句话描述 | 方案确认单**显性列出业务识别 + 默认指标包**，先确认业务判断本身，不止确认布局 |
+| 参考图/截图 | **必须先分区放大再复刻**（按顶栏/每个面板切分并放大 4–12 倍，逐块确认卡片数量、排布行列、字段与状态文案），禁止只凭整图印象转译；复刻后用比例文字反述确认（如"左列约占 24%"） |
+| 需求文档 | **文档内嵌图片优先于文字**用于还原布局（自动提取 docx/pptx 内的原始截图）；文档内部矛盾/重复/错字会列成**疑点清单**单独确认，不静默猜测 |
+
+多页/穿透类项目（如集团→二级公司→单体企业）额外遵守「数据一致性引擎」：单一数据源、关键数值锚点不可被覆盖、汇总层数值强制等于子级之和。若参考图/文档中的数值自身已经自洽（分项合计 = 汇总、量差 + 价差 = 整体变动），必须**整体照搬为锚点**，禁止另编一套"量级差不多"的假数。所有恒等式须在交付前用脚本实跑核对并贴出结果。复杂布局还可先出一版**无配色灰框骨架预览**，确认区域划分对了再进入正式生成。
+
+生成后须用无头浏览器在基准分辨率 + 至少 2 个其他分辨率实跑：无横向滚动、无溢出与文字裁切、弹窗随画布缩放且居中、各交互点击无 JS 报错——需贴出校验输出，不能只在清单打勾。
+
+自检之后还有 **独立审核（Step 5.5）**：对照确认单和参考图找不一致，结论写到生成物同级 `review/`，不写进设计说明。有 P0 未清不得声称交付。清单见 `review-checklist.md`（HTML / Vue 分节）。
+
+## 输出格式
+
+| 格式 | 说明 | 适合场景 |
+|------|------|----------|
+| HTML 单文件 | 零依赖（ECharts 走 CDN），双击浏览器即看 | 设计评审、快速演示、给领导看效果 |
+| Vue3 工程代码 | Vue3 + Element Plus + ECharts + LESS + Pinia（Vite 构建），组件化结构 + 屏幕适配 | 正式项目开发 |
+
+## 文件说明
+
+| 文件 | 作用 |
+|------|------|
+| `SKILL.md` | 主指令：工作流程（含骨架预览、独立审核）、四种输入入口的准确性规则、确认机制、自检清单 |
+| `review-checklist.md` | Step 5.5 独立审核：HTML / Vue 分节、P0 门禁、审核文件骨架 |
+| `themes.md` | 主题设计 token（深色 BI 科技风 / 浅色简约）：背景、主色、语义色、文字、边框 |
+| `chart-patterns.md` | ECharts 标准配置模板（折线 / 柱状 / 饼图 / 排行 / 仪表盘 / 热力图）+ 动画规范 |
+| `layout-patterns.md` | 常用布局结构（三栏 / 上下 / 两栏）、组件清单、屏幕适配方案（transform: scale）、骨架预览模式 |
+| `mock-data-rules.md` | mock 数据生成规则：数量级、分布形态、行业化中文命名；多页/穿透项目的数据一致性引擎（自洽参考数据整体作锚点、恒等式脚本实跑） |
+| `templates/screen.html` | HTML 原型骨架模板 |
+| `templates/screen.vue` | Vue3 页面骨架模板 |
+
+## 主题
+
+**深色 BI 科技风（默认）**
+
+深海军蓝背景 + 青色荧光主色，玻璃拟态面板、渐变柱体、发光描边，适合指挥舱 / 监控 / 经营分析类大屏。
+
+**浅色简约**
+
+白色背景 + 低饱和度配色，适合日常办公报表类看板。
+
+所有颜色、字体、间距均由 `themes.md` 中的 design token 统一约束，AI 不会自行发挥配色。
+
+## License
+
+MIT

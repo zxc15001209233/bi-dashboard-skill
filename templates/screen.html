@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!--
+  单文件大屏骨架（深色 BI 主题示例）。生成时：
+  1. 替换 :root token 为所选主题（见 themes.md）
+  2. 按所选布局骨架改 .layout 的 grid（见 layout-patterns.md）
+  3. 图表 option 从 chart-patterns.md 模板改；mock 数据按 mock-data-rules.md
+  4. 零本地依赖：ECharts 走 CDN，双击即可打开
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>XX 分析大屏</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+  :root { /* ===== 主题 token（深色 BI，勿裸写色值） ===== */
+    --bg-page: #040d21;
+    --bg-panel-top: rgba(18,64,124,.34); --bg-panel-bottom: rgba(8,26,56,.52);
+    --bg-card-top: rgba(6,48,98,.38); --bg-card-bottom: rgba(22,50,73,.42);
+    --color-primary: #076BD4; --color-accent: #00fffc; --color-bright: #1ccaff;
+    --trend-up: #FF2C2C; --trend-down: #05DC00; --trend-flat: #BFC7D5;
+    --text-body: rgba(255,255,255,.7); --text-strong: #fff; --text-secondary: rgba(255,255,255,.65);
+    --border-panel: rgba(0,255,252,.34); --border-glow: rgba(0,255,252,.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-page); }
+  body { font: 14px/1.5 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif; color: var(--text-body); }
+
+  /* ===== 适配画布（整页等比缩放） ===== */
+  #screen {
+    position: absolute; left: 50%; top: 50%;
+    width: 1920px; height: 1080px; transform-origin: center center;
+    background: radial-gradient(ellipse at 50% 0%, #0a1f42 0%, var(--bg-page) 60%);
+    display: flex; flex-direction: column; padding: 16px 24px;
+  }
+
+  /* ===== 标题栏 ===== */
+  .topbar { height: 72px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar h1 {
+    font-size: 36px; font-weight: 700; letter-spacing: 4px;
+    background: linear-gradient(180deg, #fff, var(--color-bright));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .topbar .filters select {
+    background: #083853; color: var(--text-strong); border: 1px solid var(--border-panel);
+    padding: 6px 12px; border-radius: 4px; outline: none; cursor: pointer;
+  }
+
+  /* ===== 布局（示例：三列式，按需替换） ===== */
+  .layout { flex: 1; display: grid; grid-template-columns: 24% 1fr 24%; gap: 14px; min-height: 0; }
+  .col { display: grid; gap: 14px; min-height: 0; }
+
+  /* ===== 面板 ===== */
+  .panel {
+    background: linear-gradient(180deg, var(--bg-panel-top), var(--bg-panel-bottom));
+    border: 1px solid var(--border-panel); border-radius: 6px;
+    box-shadow: inset 0 0 12px var(--border-glow);
+    display: flex; flex-direction: column; min-height: 0; overflow: hidden;
+  }
+  .panel-title {
+    background: linear-gradient(90deg, rgba(7,107,212,.4), transparent);
+    border-left: 3px solid var(--color-accent);
+    padding: 8px 12px; font-weight: 700; color: var(--text-strong); font-size: 16px;
+    flex: none;
+  }
+  .panel-body { flex: 1; min-height: 0; padding: 8px; }
+  .chart { width: 100%; height: 100%; }
+
+  /* ===== KPI 卡 ===== */
+  .kpi {
+    background: linear-gradient(180deg, var(--bg-card-top), var(--bg-card-bottom));
+    border: 1px solid var(--border-panel); border-radius: 6px;
+    padding: 14px 16px; cursor: pointer; transition: border-color .2s;
+  }
+  .kpi:hover { border-color: var(--color-accent); }
+  .kpi .label { font-size: 13px; color: var(--text-secondary); }
+  .kpi .value { font-size: 32px; font-weight: 700; color: var(--color-accent); margin: 4px 0; }
+  .kpi .delta { font-size: 12px; }
+  .up { color: var(--trend-up); } .down { color: var(--trend-down); } .flat { color: var(--trend-flat); }
+
+  /* ===== 弹窗（假交互） ===== */
+  .mask { display: none; position: absolute; inset: 0; background: rgba(0,0,0,.55); z-index: 9; }
+  .dialog {
+    display: none; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+    width: 900px; max-height: 720px; z-index: 10;
+  }
+  .dialog .close { position: absolute; right: 12px; top: 8px; cursor: pointer; color: var(--text-strong); font-size: 20px; }
+</style>
+</head>
+<body>
+<div id="screen">
+  <div class="topbar">
+    <h1>XX 分析大屏</h1>
+    <div class="filters"><select id="rangeSel"><option>近30天</option><option>近12月</option></select></div>
+  </div>
+  <div class="layout">
+    <div class="col">
+      <div class="kpi" onclick="openDialog()">
+        <div class="label">核心指标一</div>
+        <div class="value" data-countup="52340">0</div>
+        <div class="delta">同比 <span class="up">+12.3%</span>　环比 <span class="down">-2.1%</span></div>
+      </div>
+      <!-- 更多 KPI / 次级图表面板 -->
+      <div class="panel"><div class="panel-title">次级图表</div><div class="panel-body"><div class="chart" id="chartLeft"></div></div></div>
+    </div>
+    <div class="col">
+      <div class="panel" style="flex:1"><div class="panel-title">核心趋势</div><div class="panel-body"><div class="chart" id="chartMain"></div></div></div>
+    </div>
+    <div class="col">
+      <div class="panel"><div class="panel-title">排行 Top10</div><div class="panel-body"><div class="chart" id="chartRank"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="mask" id="mask" onclick="closeDialog()"></div>
+<div class="dialog panel" id="dialog">
+  <div class="panel-title">明细数据<span class="close" onclick="closeDialog()">✕</span></div>
+  <div class="panel-body"><!-- mock 明细表 --></div>
+</div>
+
+<script>
+/* ===== 屏幕适配：拉伸铺满（默认，layout-patterns.md）。任何屏幕都 100% 占满，接受轻微拉伸 ===== */
+const DESIGN_W = 1920, DESIGN_H = 1080;
+function adapt() {
+  const x = innerWidth / DESIGN_W, y = innerHeight / DESIGN_H;
+  document.getElementById('screen').style.transform = `translate(-50%,-50%) scale(${x},${y})`;
+}
+addEventListener('resize', () => { adapt(); charts.forEach(c => c.resize()); });
+
+/* ===== 数字滚动（CountUp） ===== */
+function countUp(el, target, dur = 1200) {
+  const t0 = performance.now();
+  (function tick(t) {
+    const p = Math.min((t - t0) / dur, 1), ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(target * ease).toLocaleString();
+    if (p < 1) requestAnimationFrame(tick);
+  })(t0);
+}
+
+/* ===== Mock 数据（按 mock-data-rules.md 生成，集中管理） ===== */
+const MOCK = { /* revenueByMonth: [...], topProducts: [...] */ };
+
+/* ===== 图表（option 从 chart-patterns.md 模板改） ===== */
+const charts = [];
+function initChart(id, option) {
+  const c = echarts.init(document.getElementById(id));
+  c.setOption(option); charts.push(c); return c;
+}
+
+/* ===== 假交互 ===== */
+function openDialog() { mask.style.display = 'block'; dialog.style.display = 'flex'; }
+function closeDialog() { mask.style.display = 'none'; dialog.style.display = 'none'; }
+
+/* ===== 启动 ===== */
+adapt();
+document.querySelectorAll('[data-countup]').forEach(el => countUp(el, +el.dataset.countup));
+/* initChart('chartMain', {...}); 各图表按区块顺序错峰初始化（setTimeout 0–400ms） */
+</script>
+</body>
+</html>
