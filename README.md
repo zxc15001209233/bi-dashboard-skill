@@ -7,6 +7,11 @@
 - 先产出**高保真 HTML 原型**（含真实感 mock 数据与假交互，双击即可在浏览器查看）
 - 满意后可一键转 **Vue3 + Element Plus + ECharts + LESS + Pinia（Vite 构建）** 工程代码
 
+仓库：
+
+- Gitee：https://gitee.com/zxc19890923/bi-dashboard-skill
+- GitHub：https://github.com/zxc15001209233/bi-dashboard-skill
+
 ## 效果预览
 
 <!-- TODO: 补一张生成效果截图 -->
@@ -15,12 +20,16 @@
 ## 安装
 
 ```bash
-# 安装到当前项目
-npx skills add zxc15001209233/bi-dashboard-skill
+# Gitee（国内推荐）
+npx skills add https://gitee.com/zxc19890923/bi-dashboard-skill.git
+npx skills add https://gitee.com/zxc19890923/bi-dashboard-skill.git -g
 
-# 全局安装（所有项目可用）
+# GitHub
+npx skills add zxc15001209233/bi-dashboard-skill
 npx skills add zxc15001209233/bi-dashboard-skill -g
 ```
+
+第一条装到当前项目，带 `-g` 的为全局安装（所有项目可用）。
 
 ## 使用方式
 
