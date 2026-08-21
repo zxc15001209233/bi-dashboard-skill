@@ -42,7 +42,11 @@ npx skills add zxc15001209233/bi-dashboard-skill -g
    ↓
 生成 HTML 高保真原型（mock 数据 + 假交互）
    ↓
+独立审核（对照确认单/参考图，结论写入生成物旁 review/）
+   ↓
 （可选）转 Vue3 + Element Plus + ECharts + LESS + Pinia 工程代码
+   ↓
+再审 Vue（能跑起来、与 HTML 1:1、深色浮层不穿帮）
 ```
 
 小白用户只需要说清楚"这是给谁看的、想看到什么数据"，布局、配色、图表选型全部由 skill 内置规范兜底。
@@ -61,6 +65,8 @@ npx skills add zxc15001209233/bi-dashboard-skill -g
 
 生成后须用无头浏览器在基准分辨率 + 至少 2 个其他分辨率实跑：无横向滚动、无溢出与文字裁切、弹窗随画布缩放且居中、各交互点击无 JS 报错——需贴出校验输出，不能只在清单打勾。
 
+自检之后还有 **独立审核（Step 5.5）**：对照确认单和参考图找不一致，结论写到生成物同级 `review/`，不写进设计说明。有 P0 未清不得声称交付。清单见 `review-checklist.md`（HTML / Vue 分节）。
+
 ## 输出格式
 
 | 格式 | 说明 | 适合场景 |
@@ -72,7 +78,8 @@ npx skills add zxc15001209233/bi-dashboard-skill -g
 
 | 文件 | 作用 |
 |------|------|
-| `SKILL.md` | 主指令：工作流程（含骨架预览）、四种输入入口的准确性规则（含参考图分区放大复刻）、确认机制、自检清单（含无头浏览器实跑） |
+| `SKILL.md` | 主指令：工作流程（含骨架预览、独立审核）、四种输入入口的准确性规则、确认机制、自检清单 |
+| `review-checklist.md` | Step 5.5 独立审核：HTML / Vue 分节、P0 门禁、审核文件骨架 |
 | `themes.md` | 主题设计 token（深色 BI 科技风 / 浅色简约）：背景、主色、语义色、文字、边框 |
 | `chart-patterns.md` | ECharts 标准配置模板（折线 / 柱状 / 饼图 / 排行 / 仪表盘 / 热力图）+ 动画规范 |
 | `layout-patterns.md` | 常用布局结构（三栏 / 上下 / 两栏）、组件清单、屏幕适配方案（transform: scale）、骨架预览模式 |
