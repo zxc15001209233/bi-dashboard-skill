@@ -1,7 +1,9 @@
 # ECharts 标准模板与动效规范
 
-所有图表 option **从本文件模板修改**，禁止用 ECharts 默认配色/默认 tooltip。
+所有图表 option **从本文件模板修改或按同结构新写**，禁止用 ECharts 默认配色/默认 tooltip。
 色值引用 themes.md 所选主题 token；以下模板以深色 BI 主题示例，浅色主题替换对应 token 即可。
+
+**主题模式**可从模板 1 起改。**复刻模式禁止默认用模板 1（面积折线）**：先认图上的 series（柱+线 / 堆叠柱+线 / 双折线 / geo 地图），再选模板 7–9 或新写。
 
 ## 通用基座（每个图表都要有）
 
@@ -147,13 +149,83 @@ const barGradient = (top, bottom) => ({
 
 | 动效 | 实现 | 参数 |
 |---|---|---|
-| 数字滚动（CountUp） | KPI 数值从 0 滚到目标值；HTML 模式用 rAF 手写（~15 行），Vue 模式可用 rAF composable | 时长 1.2s，easeOut |
+| 数字滚动（CountUp） | **主题模式** KPI 从 0 滚到目标；**复刻跟图**（翻牌盒不要无依据 CountUp） | 时长 1.2s，easeOut |
 | 图表入场 | ECharts 自带 `animationDuration: 800, animationEasing: 'cubicOut'`；多图表错峰：按区块顺序延迟 0–400ms 初始化 | — |
 | 排行/表格轮播 | 行数超出容器时自动向上滚动，`setInterval` + `scrollTop` 过渡，鼠标悬停暂停 | 每 3s 滚 1 行 |
 | 面板边框微光 | 面板 `box-shadow` 呼吸：`@keyframes` 在 `rgba(0,255,252,0.1)` ↔ `0.25` 间缓变 | 周期 4s，**最多用于 1–2 个重点面板** |
 | 折线扫光 | 可选：`series.markLine` 或 ECharts `animationDelay` 逐点入场 | 谨慎使用 |
 
 **禁止项**：满屏粒子背景、元素闪烁（blink）、超过 3 种同屏并发动效、无限旋转装饰。动效克制才显专业。
+
+## 模板 7：柱 + 线（复刻经营屏累计/完成率）
+
+图上是柱表示量、线表示率或累计时用本模板，禁止用模板 1 面积折线顶替。
+
+```js
+{
+  color: ['#00fffc', '#ff8c00'],
+  tooltip: { trigger: 'axis', ...DARK_TOOLTIP },
+  legend: LEGEND,
+  grid: GRID,
+  xAxis: { type: 'category', data: months, ...AXIS },
+  yAxis: [
+    { type: 'value', name: '万元', ...AXIS },
+    { type: 'value', name: '%', ...AXIS, splitLine: { show: false } },
+  ],
+  series: [
+    { name: '金额', type: 'bar', barMaxWidth: 18,
+      itemStyle: barGradient('#5cfbff', 'rgba(0,255,252,0.15)'), data: bars },
+    { name: '累计/率', type: 'line', yAxisIndex: 1, smooth: false,
+      symbol: 'circle', symbolSize: 6, lineStyle: { width: 2 }, data: line },
+  ],
+}
+```
+
+## 模板 8：堆叠柱 + 线
+
+```js
+{
+  tooltip: { trigger: 'axis', ...DARK_TOOLTIP },
+  legend: LEGEND,
+  grid: GRID,
+  xAxis: { type: 'category', data: months, ...AXIS },
+  yAxis: [
+    { type: 'value', ...AXIS },
+    { type: 'value', ...AXIS, splitLine: { show: false } },
+  ],
+  series: [
+    { name: '系列A', type: 'bar', stack: 'total', barMaxWidth: 20,
+      itemStyle: barGradient('#5cfbff', 'rgba(0,255,252,0.18)'), data: a },
+    { name: '系列B', type: 'bar', stack: 'total', barMaxWidth: 20,
+      itemStyle: barGradient('#2f8fe0', 'rgba(7,107,212,0.18)'), data: b },
+    { name: '合计/率', type: 'line', yAxisIndex: 1, symbolSize: 6, data: total },
+  ],
+}
+```
+
+## 模板 9：中国地图（geo，能力边界）
+
+HTML 用 CDN 拉 geoJSON 后 `echarts.registerMap('china', geoJson)`。这是 **2D choropleth**，≠ 现网三维/发光地图，审核标「未覆盖」，禁止写成已同构。
+
+```js
+{
+  tooltip: { ...DARK_TOOLTIP },
+  visualMap: {
+    min: 0, max: 592, left: 12, bottom: 24,
+    text: ['高', '低'], textStyle: { color: '#cfe6ff' },
+    inRange: { color: ['#0a2a4a', '#00fffc'] },
+  },
+  series: [{
+    type: 'map', map: 'china', roam: false,
+    itemStyle: { borderColor: 'rgba(0,255,252,0.35)', areaColor: '#0a1f42' },
+    emphasis: { itemStyle: { areaColor: '#076BD4' } },
+    label: { show: true, color: '#cfe6ff', fontSize: 10 },
+    data: [{ name: '西藏', value: 12 } /* ... */],
+  }],
+}
+```
+
+默认不要弹西藏等省 tooltip，除非用户点击或确认单要求。CDN 失败时数字区仍要能看，禁止对已销毁实例 `setOption`。
 
 ## 通用要求
 

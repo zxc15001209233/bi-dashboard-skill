@@ -20,7 +20,7 @@ CSS 中以 CSS 自定义属性输出（`--bg-page` 等），ECharts option 中�
 | `--bg-card-bottom` | `rgba(22, 50, 73, 0.42)` | KPI 卡渐变底 |
 | `--bg-table-header` | `#063062` | 表格表头（或渐变 `#16487f → #0d2c55`） |
 | `--bg-input` | `#083853` | 输入框/下拉框 |
-| `--bg-filter-bar` | `#163249` | 筛选栏 |
+| `--bg-filter-bar` | `#163249` | 主题模式独立筛选通栏；复刻跟图，禁止无依据做深色筛选条 |
 | `--bg-flipper` | `rgba(0, 255, 255, 0.2)` | 数字翻牌器底 |
 | `--bg-tooltip` | `rgba(6, 24, 52, 0.92)` | 图表 tooltip / 弹出层 |
 | `--bg-row-stripe` | `rgba(13, 38, 73, 0.35)` | 表格斑马纹 |
@@ -60,9 +60,9 @@ CSS 中以 CSS 自定义属性输出（`--bg-page` 等），ECharts option 中�
 |---|---|---|
 | `--data-1` | `#00fffc` 青 | 第 1 系列 / 收入类 |
 | `--data-2` | `#076BD4` 蓝 | 第 2 系列 / 同期对比 |
-| `--data-3` | `#ff8c00` 橙 | 第 3 系列 / 利润类折线 |
+| `--data-3` | `#ff8c00` 橙 | 第 3 系列 / 折线对比；**不是**利润灯管默认色 |
 | `--data-4` | `#ffe84d` 亮黄 | 第 4 系列 / 同期折线 |
-| `--data-5` | `#0dffb7` 亮绿 | 第 5 系列 |
+| `--data-5` | `#0dffb7` 亮绿 | 第 5 系列 / 复刻利润绿灯管可与 `--trend-down` 同用 |
 | `--data-6` | `#FF6B9D` 粉 | 第 6 系列 |
 
 ### 文字
@@ -87,7 +87,7 @@ CSS 中以 CSS 自定义属性输出（`--bg-page` 等），ECharts option 中�
 | `--axis-line` | `rgba(255,255,255,0.18)` | 图表坐标轴 |
 | `--split-line` | `rgba(255,255,255,0.10)` | 图表分隔线（dashed） |
 
-### 面板标准样式（直接套用）
+### 面板标准样式（仅主题模式直接套用；复刻禁止用此玻璃卡顶替图上的标题条/弱框）
 
 ```css
 .panel {
@@ -162,7 +162,7 @@ CSS 中以 CSS 自定义属性输出（`--bg-page` 等），ECharts option 中�
 | 用途 | 字体 / 字号 / 字重 |
 |---|---|
 | 页面主标题 | 装饰性标题字体（优设标题黑/思源黑体 Heavy，无则 Microsoft YaHei bold）；32–64px；700 |
-| KPI 大数字 | `DIN Alternate / Bebas Neue / Arial`（数字等宽观感）；28–36px；bold |
+| KPI 大数字 | `DIN Alternate / Bebas Neue / Arial`（数字等宽观感）；主题默认 28–36px；**复刻跟 overlay / 现网，禁止用本区间缩小一档** |
 | 卡片标题 | 系统字体栈；16–18px；700（**无参考图/现网时的默认区间**；有参考图或现网已写死字号时跟图/现网，禁止用本区间缩小一档） |
 | 正文/表格 | `Helvetica Neue, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif`；12–14px；400–600 |
 | 辅助信息 | 同正文；12px；400 |

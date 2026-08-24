@@ -11,8 +11,8 @@
  * ├── config/colors.js        ← 语义色 JS 常量（ECharts 用，与 LESS 同源镜像）
  * ├── composables/useScreenAdapt.js  ← 整页缩放适配（默认拉伸铺满，见 layout-patterns.md）
  * ├── components/
- * │   ├── PanelBox.vue        ← 面板容器（标题条 + 玻璃底，样式见 themes.md）
- * │   ├── KpiCard.vue         ← KPI 翻牌卡（数字滚动 + 涨跌色）
+ * │   ├── PanelBox.vue        ← 主题模式：标题条 + 玻璃底。复刻/已有 HTML 时必须 1:1 跟原型，禁止拉回玻璃脸
+ * │   ├── KpiCard.vue         ← KPI（主题可 CountUp；复刻跟图：翻牌就翻牌）
  * │   └── charts/
  * │       ├── ChartCanvas.vue ← echarts 实例封装（init/setOption/resize/dispose）
  * │       └── xxxOption.js    ← 每图表一个 option 工厂纯函数（chart-patterns.md 模板）
@@ -103,7 +103,7 @@ onMounted(async () => {
 .layout {
   flex: 1;
   display: grid;
-  grid-template-columns: 24% 1fr 24%; // 布局骨架见 layout-patterns.md
+  grid-template-columns: 24% 1fr 24%; // 仅主题模式默认；复刻用 overlay 量寸
   gap: 14px;
   min-height: 0;
 }

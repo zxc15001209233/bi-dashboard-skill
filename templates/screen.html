@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <!--
-  单文件大屏骨架（深色 BI 主题示例）。生成时：
+  单文件大屏骨架（深色 BI · 仅主题模式默认脸）。
+  复刻模式禁止沿用 .topbar / .panel / .kpi 视觉和 24% 三列，只借 #screen 适配与 :root token。见 replica-mode.md。
+  生成时：
   1. 替换 :root token 为所选主题（见 themes.md）
-  2. 按所选布局骨架改 .layout 的 grid（见 layout-patterns.md）
-  3. 图表 option 从 chart-patterns.md 模板改；mock 数据按 mock-data-rules.md
-  4. 零本地依赖：ECharts 走 CDN，双击即可打开
+  2. 主题模式：按 layout-patterns.md 改 .layout；复刻：只写 overlay 量寸
+  3. 图表 option 从 chart-patterns.md 改（复刻禁止默认模板 1）
+  4. 交付 HTML 零本地依赖：ECharts 走 CDN，双击即可打开
 -->
 <html lang="zh-CN">
 <head>
