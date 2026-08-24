@@ -162,7 +162,7 @@ CSS 中以 CSS 自定义属性输出（`--bg-page` 等），ECharts option 中�
 | 用途 | 字体 / 字号 / 字重 |
 |---|---|
 | 页面主标题 | 装饰性标题字体（优设标题黑/思源黑体 Heavy，无则 Microsoft YaHei bold）；32–64px；700 |
-| KPI 大数字 | `DIN Alternate / Bebas Neue / Arial`（数字等宽观感）；主题默认 28–36px；**复刻跟 overlay / 现网，禁止用本区间缩小一档** |
+| KPI 大数字 | `DIN Alternate / Bebas Neue / Arial`（数字等宽观感）；主题默认 28–36px；**复刻跟分区 clip / 现网，禁止用本区间缩小一档** |
 | 卡片标题 | 系统字体栈；16–18px；700（**无参考图/现网时的默认区间**；有参考图或现网已写死字号时跟图/现网，禁止用本区间缩小一档） |
 | 正文/表格 | `Helvetica Neue, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif`；12–14px；400–600 |
 | 辅助信息 | 同正文；12px；400 |

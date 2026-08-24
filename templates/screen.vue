@@ -103,7 +103,7 @@ onMounted(async () => {
 .layout {
   flex: 1;
   display: grid;
-  grid-template-columns: 24% 1fr 24%; // 仅主题模式默认；复刻用 overlay 量寸
+  grid-template-columns: 24% 1fr 24%; // 仅主题模式默认；复刻用确认单大约占比
   gap: 14px;
   min-height: 0;
 }

@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
  * 复刻第一步：鉴定参考图真实格式与像素。
- * 用法：node scripts/inspect-source.js <image> [image...]
- * 禁止信文件名或对话里的「1920」。聊天附件常为 JPEG 冒充 .png。
+ * 用法（从 skill 安装目录）：
+ *   node ~/.cursor/skills/bi-dashboard-generator/scripts/inspect-source.js <image>
+ * 也可复制到项目 review/ 再跑。禁止信文件名或对话里的「1920」。
  */
 const fs = require('fs');
 const path = require('path');

@@ -41,11 +41,12 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 
 最低限度（细节以 replica-mode 为准）：
 
-1. `scripts/inspect-source.js`（或 `file` + 像素）鉴定源图；聊天压缩件 / 宽 &lt; 1600 **停**，请用户把原生文件放进仓库。
-2. 按表叠 overlay：整页截图 → `#screen`；内容图 → `.stage`；壳图只铺外框、不能量列宽。
-3. 分区 clip 认字段；顶栏/每卡形态写不出 → 停问。
-4. 列宽块高只能量自 overlay；禁止套 `24% 1fr 24%` 或模板玻璃卡。
+1. 跑 skill 目录的 `scripts/inspect-source.js`（或 `file` + 像素）鉴定源图；聊天压缩件 / 宽 &lt; 1600 **停**，请用户把原生文件放进仓库。
+2. 按 1920 原尺寸 clip **参考原图**（不要 clip 半成品 HTML）；壳图只铺外框，和内容截图不要混坐标系。
+3. 顶栏/每卡形态写不出 → 停问。列宽只写大约占比，禁止声称已量准到 px。
+4. 禁止套 `24% 1fr 24%` 或模板玻璃卡。
 5. 图表 series 跟图选模板，禁止默认面积折线。
+6. 写后同区块 `ref`/`proto` 截图并排；产品页不要 `?overlay=1`，review 不要扫像素脚本。
 
 **入口④ 需求文档**（产品经理主路径）：解析文档提取「页面清单 → 每页区块 → 区块指标与图表类型 → 交互（弹窗/穿透/筛选）」，输出解析确认单。**文档未写明的项（如图表类型）必须列入"缺失项"并给出建议，禁止静默猜测后直接生成。**
 
@@ -54,7 +55,7 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 
 ### Step 2：输出方案确认单
 
-生成前必须先给用户看方案。**主题模式**可用下面格式；**复刻模式**必须改用 [replica-mode.md](replica-mode.md) 第 3 节检查表（源图像素、overlay 层、标题形态、每卡结构、series 类型、量寸）。即使用户先回 `go`，确认单未发出也不得开写。
+生成前必须先给用户看方案。**主题模式**可用下面格式；**复刻模式**必须改用 [replica-mode.md](replica-mode.md) 第 3 节检查表（源图像素、壳图有无、标题形态、每卡结构、series 类型、大约列宽）。即使用户先回 `go`，确认单未发出也不得开写。
 
 ```
 【大屏方案确认单】（主题模式示例）
@@ -87,7 +88,7 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 对于多页穿透项目、或用户对布局理解没有十足把握时，先产出一版**无配色、无真实图表、无 mock 数据**的纯灰框占位页：每个区块只画边框 + 区块用途标签文字（如「KPI 卡 ×4」「趋势折线图」），几秒钟出结果，让用户先确认区域划分和比例，而非等最终版才发现理解偏了。灰框骨架的模板见 [layout-patterns.md](layout-patterns.md) 的「骨架预览模式」一节。
 
 - 灰框骨架的网格/比例必须与最终版完全一致，仅去掉主题配色、图表渲染、mock 内容
-- **复刻模式**的灰框比例必须来自 overlay 量寸，禁止用 24%/52%/24% 占位后再「正式生成时重排」
+- **复刻模式**的灰框比例必须来自确认单的大约占比，禁止用 24%/52%/24% 占位后再「正式生成时重排」
 - 用户确认后再进入 Step 4，按同一套网格套用主题与内容，不重新排布
 - 简单单页、或用户已给出精确布局描述时可跳过，直接进入 Step 4
 
@@ -101,7 +102,7 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 
 **HTML · 复刻模式**（有参考图）：
 - 只借 `#screen` 适配、`:root` token、弹窗/toast；**禁止**沿用模板 `.topbar / .panel / .kpi` 视觉
-- 栅格只写 overlay 量得的 px/%，禁止套 layout-patterns 默认 `24% 1fr 24%`
+- 栅格按确认单大约占比写，禁止套 layout-patterns 默认 `24% 1fr 24%`，禁止声称已量准到 1px
 - 按图选择或新写 chart option（柱+线 / 堆叠柱+线 / 地图见 chart-patterns 模板 7–9），禁止默认模板 1
 - mock **照搬**图上组织名、账期、锚点数字（见 mock-data-rules 复刻例外）
 
@@ -180,7 +181,7 @@ Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」
 
 ## 参考文件
 
-- [replica-mode.md](replica-mode.md) —— 复刻模式操作步骤（鉴定源图、overlay 叠层、死门、停打磨）
+- [replica-mode.md](replica-mode.md) —— 复刻：鉴定源图、原图 clip、壳/内容分开、写后同区块并排
 - [themes.md](themes.md) —— 主题 token 表（色彩/字体/字号，深色 BI + 浅色简约）
 - [layout-patterns.md](layout-patterns.md) —— 布局骨架（**仅主题模式默认值**）、组件清单、屏幕适配
 - [chart-patterns.md](chart-patterns.md) —— ECharts 模板（含柱+线 / 堆叠柱+线 / geo 地图）
@@ -188,5 +189,4 @@ Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」
 - [templates/screen.html](templates/screen.html) —— 主题模式 HTML 骨架（复刻禁用其脸）
 - [templates/screen.vue](templates/screen.vue) —— Vue3 工程骨架
 - [review-checklist.md](review-checklist.md) —— Step 5.5 审核清单
-- [scripts/inspect-source.js](scripts/inspect-source.js) —— 鉴定参考图像素与格式
-- [scripts/measure-overlay.js](scripts/measure-overlay.js) —— 量 `#screen` / stage / data-review 盒
+- [scripts/inspect-source.js](scripts/inspect-source.js) —— 鉴定参考图像素与格式（从 skill 安装目录运行）
