@@ -10,14 +10,15 @@
 
 对用户给的**每一张**参考图跑鉴定，禁止信文件名或对话里的「1920」。聊天附件经常是 **1024×576 JPEG 存成 .png**。
 
-脚本在 skill 安装目录，不在项目里。任选其一：
+脚本在**本 Skill 根目录**（与 `SKILL.md` 同级）的 `scripts/`，不在业务项目里。不要写死 `~/.cursor/skills` 或其它编辑器路径。找到根目录：含 `SKILL.md` 且含 `scripts/inspect-source.js`。
 
 ```bash
-node ~/.cursor/skills/bi-dashboard-generator/scripts/inspect-source.js <图>
-# 或 file / sips -g pixelWidth -g pixelHeight
+node <本 Skill 根目录>/scripts/inspect-source.js <图>
 ```
 
-也可把脚本复制到生成物旁 `review/` 再跑。确认单必须抄输出。
+也可把脚本复制到生成物旁 `review/` 再跑。能跑则确认单必须抄输出。
+
+跑不了 Node / 找不到脚本时：用环境里能用的等价手段读真实宽高与格式（如 `file`；macOS 可选 `sips -g pixelWidth`）。仍读不到则停，请用户把原生文件放进仓库。确认单须写明「未跑 inspect-source，已用手核 / 读不到」。
 
 | 判定 | 动作 |
 |---|---|
@@ -31,7 +32,7 @@ node ~/.cursor/skills/bi-dashboard-generator/scripts/inspect-source.js <图>
 ## 2. 写前：原图 clip + 壳/内容分开
 
 **Clip 的是参考原图，不是已经写了一半的 HTML。**  
-把鉴定通过的 PNG 按真实宽高放进空白页（视口 = 图尺寸，`<img>` 不要 `object-fit: fill`），再用 Playwright `locator.screenshot` 或 `clip`。禁止 `sips --cropOffset`。裁完必须目视确认是目标区块，裁错则停。
+把鉴定通过的 PNG 按真实宽高放进空白页（视口 = 图尺寸，`<img>` 不要 `object-fit: fill`），再按区块裁切。环境有 Playwright（或同类无头浏览器）时用 `locator.screenshot` / `clip`；没有则用编辑器/系统能做的截图，并在确认单写「未跑 Playwright clip」。禁止用 macOS `sips --cropOffset` 当唯一裁切手段。裁完必须目视确认是目标区块，裁错则停。
 
 分区至少：顶栏、筛选、每一块面板。用来认字段、标题容器、图表 series、卡内结构。列宽只从这些 clip **估大约占比**（如左约 22%、右约 27%），**禁止**写成「已量准 401.0px」。
 

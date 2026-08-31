@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * 复刻第一步：鉴定参考图真实格式与像素。
- * 用法（从 skill 安装目录）：
- *   node ~/.cursor/skills/bi-dashboard-generator/scripts/inspect-source.js <image>
+ * 用法（本 Skill 根目录 = SKILL.md 所在目录，不要写死 ~/.cursor/skills）：
+ *   node <本 Skill 根目录>/scripts/inspect-source.js <image>
  * 也可复制到项目 review/ 再跑。禁止信文件名或对话里的「1920」。
  */
 const fs = require('fs');

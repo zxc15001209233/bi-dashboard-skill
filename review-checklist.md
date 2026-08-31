@@ -70,8 +70,8 @@
 
 ### 建议取证
 
-- `node ~/.cursor/skills/bi-dashboard-generator/scripts/inspect-source.js` 源图输出（有参考图必贴）
-- 无头浏览器：基准分辨率 + 至少 2 个其它分辨率截图
+- `node <本 Skill 根目录>/scripts/inspect-source.js` 源图输出（有参考图能跑则必贴；跑不了须写明已用手核或读不到）
+- 无头浏览器：基准分辨率 + 至少 2 个其它分辨率截图（环境没有则手开 HTML 核同样项，审核写「未跑无头」）
 - 有参考图：同区块裁切并排（ref 来自原图、proto 来自 HTML `[data-review]`）；视觉差清单每块一条可核对差或「未覆盖：…」
 - 手算或脚本核 3～5 条恒等式
 

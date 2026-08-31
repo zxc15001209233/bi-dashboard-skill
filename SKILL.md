@@ -41,7 +41,7 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 
 最低限度（细节以 replica-mode 为准）：
 
-1. 跑 skill 目录的 `scripts/inspect-source.js`（或 `file` + 像素）鉴定源图；聊天压缩件 / 宽 &lt; 1600 **停**，请用户把原生文件放进仓库。
+1. 从**本 Skill 根目录**（与 `SKILL.md` 同级，禁止写死 `~/.cursor/skills`）跑 `scripts/inspect-source.js` 鉴定源图。跑不了则用手核能读到的宽高/格式；仍读不到或聊天压缩件 / 宽 &lt; 1600 **停**，请用户把原生文件放进仓库。
 2. 按 1920 原尺寸 clip **参考原图**（不要 clip 半成品 HTML）；壳图只铺外框，和内容截图不要混坐标系。
 3. 顶栏/每卡形态写不出 → 停问。列宽只写大约占比，禁止声称已量准到 px。
 4. 禁止套 `24% 1fr 24%` 或模板玻璃卡。
@@ -75,7 +75,7 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 
 ### Step 3：确认主题与输出形式
 
-用 AskQuestion 或对话列表确认，**每项都有推荐默认值，用户全选默认也能得到完整大屏**：
+用对话选项确认（运行时若有 AskQuestion 一类工具也可用），**每项都有推荐默认值，用户全选默认也能得到完整大屏**：
 
 1. 主题：深色 BI 科技风（推荐）/ 浅色简约 —— token 见 [themes.md](themes.md)
 2. 输出形式：单文件 HTML 原型（推荐，双击即看）/ Vue3 + Element Plus + ECharts + LESS + Pinia（Vite 构建）工程代码
@@ -132,7 +132,7 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 - [ ] 空数据区块显示占位符"—"，不留空白
 - [ ] mock 符合量级规则；复刻时图上专名与账期未被改写
 - [ ] 动效克制；复刻时 KPI 形态跟图（翻牌不要强行 CountUp）
-- [ ] 无头浏览器：基准分辨率 + 至少 2 个其他分辨率；无横滚、无溢出、弹窗在画布内、无 JS 报错——贴输出
+- [ ] 能跑无头浏览器则：基准分辨率 + 至少 2 个其他分辨率；无横滚、无溢出、弹窗在画布内、无 JS 报错——贴输出。跑不了则手开 HTML 核同样项，并在审核写「未跑无头」
 - [ ] 有参考图：同区块并排 + 视觉差清单（每块一条可核对差或「未覆盖」）
 
 Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」。
@@ -189,4 +189,4 @@ Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」
 - [templates/screen.html](templates/screen.html) —— 主题模式 HTML 骨架（复刻禁用其脸）
 - [templates/screen.vue](templates/screen.vue) —— Vue3 工程骨架
 - [review-checklist.md](review-checklist.md) —— Step 5.5 审核清单
-- [scripts/inspect-source.js](scripts/inspect-source.js) —— 鉴定参考图像素与格式（从 skill 安装目录运行）
+- [scripts/inspect-source.js](scripts/inspect-source.js) —— 鉴定参考图像素与格式（从本 Skill 根目录运行，不要写死编辑器路径）
