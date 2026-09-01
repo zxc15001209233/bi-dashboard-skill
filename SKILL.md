@@ -1,6 +1,6 @@
 ---
 name: bi-dashboard-generator
-description: Use when the user asks to create or replicate a data visualization dashboard, BI cockpit, command center, monitoring wall, or large-screen看板; when they attach a dashboard screenshot or prototype to copy; or when they provide a PRD or layout description for a data screen. Do not use for ordinary admin CRUD pages.
+description: Use when the user asks to create or replicate a data visualization dashboard, BI cockpit, command center, monitoring wall, 数据看板, or large-screen看板; when they attach a dashboard screenshot or prototype to copy or mention 复刻 / 参考图; or when they provide a PRD or layout description for a data screen. Do not use for ordinary admin CRUD pages.
 ---
 
 # 可视化大屏生成器
@@ -52,6 +52,8 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 
 - **图片优先于文字还原布局**：文档（docx/pptx 等）含嵌入截图时，必须提取原始图片（如解压 docx 读取 `word/media/*.png`）作为布局真相源——精确的区块排布、比例、视觉层级只有图片才有；文字仅用于提取指标口径、计算逻辑、交互说明。图片与文字描述冲突时，列入疑点清单问用户，不能只信一边静默选择。文档内嵌大屏截图按入口③ + replica-mode 处理。
 - **疑点清单与缺失项并列，缺一不可**：疑点清单专门列文档内部的矛盾/重复/可疑错字（如同一指标在两处定义不同、明显笔误、图表类型前后不一致），而不仅是"文档没写"的缺失项。两类问题都必须在解析确认单中列出，禁止 AI 自行挑一种理解静默生成。
+
+入口④解析并产出大屏确认单 / 原型后，若用户还要数据模型、接口契约或开发计划，交回 `requirements-to-dev`；本 Skill 不出 API/DDL 全文、不拆开发模块。
 
 ### Step 2：输出方案确认单
 
@@ -164,6 +166,7 @@ Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」
 - 用户口头改布局/指标：改后重新走 Step 5 + 5.5
 - 用户叫停打磨：进入本步，不要再改观感
 - 转 Vue：与 HTML 1:1，再走 Step 5.5 Vue 节
+- 用户还要数据模型、接口契约或开发计划：交回 `requirements-to-dev`，本 Skill 停在原型与对接占位
 
 ## 硬性规则（任何模式必须遵守）
 
@@ -178,6 +181,7 @@ Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」
 9. 解析需求文档/参考图时，**图片的布局精度高于文字转译**；文档内部矛盾必须列入疑点清单，禁止静默选择
 10. 多页/穿透类项目必须遵守 [mock-data-rules.md](mock-data-rules.md) 的「数据一致性引擎」
 11. 有参考图时必须遵守 [replica-mode.md](replica-mode.md)：**结构同构，不承诺像素级**。禁止套主题默认脸、禁止把低清拉伸 gutter 当真实尺寸、禁止审核只写「已同构」
+12. 本 Skill 只出确认单、原型与对接占位；不出 API/DDL 全文、不拆开发模块。后续数据模型 / 接口契约 / 开发计划交回 `requirements-to-dev`
 
 ## 参考文件
 
