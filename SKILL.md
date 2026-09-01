@@ -1,6 +1,6 @@
 ---
 name: bi-dashboard-generator
-description: Use when the user asks to create or replicate a data visualization dashboard, BI cockpit, command center, monitoring wall, 数据看板, or large-screen看板; when they attach a dashboard screenshot or prototype to copy or mention 复刻 / 参考图; or when they provide a PRD or layout description for a data screen. Do not use for ordinary admin CRUD pages.
+description: Use when the user asks to create or replicate a data visualization dashboard, BI cockpit, command center, monitoring wall, 数据看板, or large-screen看板; when they attach a dashboard screenshot or prototype to copy; when they mention 复刻 / 参考图 for a data screen; or when they provide a PRD or layout description for a data screen. If a document mixes dashboard and admin CRUD, only take the dashboard pages. Do not use for ordinary admin CRUD pages.
 ---
 
 # 可视化大屏生成器
@@ -15,7 +15,7 @@ description: Use when the user asks to create or replicate a data visualization 
 |---|---|---|
 | 静态展示 | ✅ 按 token 与模板完整生成 | ⚠️ **结构同构**：布局、字号档、图表类型、色相、壳叠层、锚点数字跟图。ECharts geo/灯管/电路密度 **未覆盖**，不承诺像素级 |
 | 页面交互 | ✅ HTML 内 mock 假交互 | ✅ 同左（点了什么跟确认单） |
-| 真实数据对接 | ⚠️ 仅 API 占位与字段映射 | ⚠️ 同左 |
+| 真实数据对接 | ⚠️ 仅字段名 + mock 开关占位，不是接口契约 | ⚠️ 同左 |
 | 工程化 | ⚠️ Vue 给骨架 | ⚠️ 同左；转 Vue 须与已复刻 HTML 1:1，禁止拉回玻璃脸 |
 
 ## 工作流程
@@ -52,8 +52,15 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 
 - **图片优先于文字还原布局**：文档（docx/pptx 等）含嵌入截图时，必须提取原始图片（如解压 docx 读取 `word/media/*.png`）作为布局真相源——精确的区块排布、比例、视觉层级只有图片才有；文字仅用于提取指标口径、计算逻辑、交互说明。图片与文字描述冲突时，列入疑点清单问用户，不能只信一边静默选择。文档内嵌大屏截图按入口③ + replica-mode 处理。
 - **疑点清单与缺失项并列，缺一不可**：疑点清单专门列文档内部的矛盾/重复/可疑错字（如同一指标在两处定义不同、明显笔误、图表类型前后不一致），而不仅是"文档没写"的缺失项。两类问题都必须在解析确认单中列出，禁止 AI 自行挑一种理解静默生成。
+- **混合文档**：同一份材料里既有大屏/看板页、又有中后台或 CRUD 页时，本 Skill **只做大屏页**。其余章节交回 `requirements-to-dev`。用户只说「按这份文档开始」、未点明只要大屏时，先让 `requirements-to-dev` 判定范围，再接过大屏页。
 
-入口④解析并产出大屏确认单 / 原型后，若用户还要数据模型、接口契约或开发计划，交回 `requirements-to-dev`；本 Skill 不出 API/DDL 全文、不拆开发模块。
+### 与 requirements-to-dev 交接
+
+交回 / 被委托时：先读对方 Skill 根目录的 `SKILL.md`（含该 `name` 与 `SKILL.md` 的目录）再动手。对方未安装则停，请用户安装或点名调用，禁止空口假装已按对方流程做完。
+
+本 Skill 只出确认单、原型与对接占位。占位 = 字段名 + `USE_MOCK` 开关，**不是**路径 / 错误码 / DDL。若用户还要数据模型、接口契约或开发计划，交回 `requirements-to-dev`，不拆开发模块。
+
+项目无总规则时，以确认单为写文件门禁（确认单未发出不得写）；不另设 `go`。项目已有总规则则跟项目的。
 
 ### Step 2：输出方案确认单
 
@@ -181,7 +188,7 @@ Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」
 9. 解析需求文档/参考图时，**图片的布局精度高于文字转译**；文档内部矛盾必须列入疑点清单，禁止静默选择
 10. 多页/穿透类项目必须遵守 [mock-data-rules.md](mock-data-rules.md) 的「数据一致性引擎」
 11. 有参考图时必须遵守 [replica-mode.md](replica-mode.md)：**结构同构，不承诺像素级**。禁止套主题默认脸、禁止把低清拉伸 gutter 当真实尺寸、禁止审核只写「已同构」
-12. 本 Skill 只出确认单、原型与对接占位；不出 API/DDL 全文、不拆开发模块。后续数据模型 / 接口契约 / 开发计划交回 `requirements-to-dev`
+12. 本 Skill 只出确认单、原型与对接占位（字段名 + mock 开关）；不出路径 / 错误码 / DDL 全文、不拆开发模块。后续数据模型 / 接口契约 / 开发计划交回 `requirements-to-dev`。对方未安装则停，不要空口假装已交接。
 
 ## 参考文件
 
