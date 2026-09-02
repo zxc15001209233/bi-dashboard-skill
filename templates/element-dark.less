@@ -1,0 +1,92 @@
+/* Element Plus 深色浮层。复制到工程 `src/styles/element-dark.less`（或改后缀 .css）。
+   禁止只改白底：默认灰字叠深蓝面板同样算未覆盖。色值跟 themes.md token。 */
+
+.el-input__wrapper,
+.el-select__wrapper,
+.el-date-editor.el-input,
+.el-date-editor .el-input__wrapper {
+  background: var(--bg-input) !important;
+  box-shadow: 0 0 0 1px var(--border-panel) inset !important;
+}
+.el-input__inner,
+.el-select__placeholder,
+.el-select__selected-item {
+  color: var(--text-strong) !important;
+}
+
+.el-popper.is-light,
+.el-picker__popper,
+.el-picker-panel,
+.el-select-dropdown,
+.el-date-picker,
+.el-picker-panel__body {
+  --el-datepicker-bg-color: #061834;
+  --el-datepicker-text-color: var(--text-table-head);
+  --el-datepicker-off-text-color: var(--text-table-body);
+  --el-datepicker-header-text-color: var(--text-table-head);
+  --el-datepicker-icon-color: var(--text-table-head);
+  --el-datepicker-border-color: var(--border-panel);
+  --el-datepicker-inner-border-color: var(--border-panel);
+  --el-datepicker-inrange-bg-color: rgba(0, 255, 252, 0.12);
+  --el-datepicker-inrange-hover-bg-color: rgba(0, 255, 252, 0.18);
+  --el-datepicker-active-color: var(--color-accent);
+  --el-datepicker-hover-text-color: var(--color-accent);
+  --el-bg-color-overlay: #061834;
+  --el-fill-color-blank: #061834;
+  --el-fill-color-light: rgba(255, 255, 255, 0.08);
+  --el-text-color-regular: var(--text-table-head);
+  --el-text-color-primary: var(--text-strong);
+  --el-text-color-placeholder: var(--text-table-body);
+  --el-text-color-disabled: var(--text-table-body);
+  background: #061834 !important;
+  color: var(--text-table-head) !important;
+  border-color: var(--border-panel) !important;
+}
+
+.el-popper.is-light {
+  border: 1px solid var(--border-panel) !important;
+}
+.el-select-dropdown__item {
+  color: var(--text-strong) !important;
+}
+.el-select-dropdown__item.is-hovering,
+.el-select-dropdown__item:hover {
+  background: rgba(0, 255, 252, 0.12) !important;
+}
+.el-picker-panel__icon-btn,
+.el-date-picker__header-label {
+  color: var(--text-table-head) !important;
+}
+.el-month-table td .el-date-table-cell__text,
+.el-year-table td .el-date-table-cell__text {
+  color: var(--text-table-head) !important;
+  font-size: 14px;
+  font-weight: 600;
+}
+.el-month-table td.disabled .el-date-table-cell__text,
+.el-year-table td.disabled .el-date-table-cell__text {
+  background: transparent !important;
+  color: var(--text-table-body) !important;
+}
+.el-month-table td.today:not(.current) .el-date-table-cell__text,
+.el-year-table td.today:not(.current) .el-date-table-cell__text {
+  color: var(--color-accent) !important;
+}
+.el-month-table td.current:not(.disabled) .el-date-table-cell__text,
+.el-year-table td.current:not(.disabled) .el-date-table-cell__text {
+  color: #042038 !important;
+  background: var(--color-accent) !important;
+}
+.el-dialog,
+.el-dialog__header,
+.el-dialog__body,
+.el-dialog__footer {
+  background: #061834 !important;
+  color: var(--text-strong) !important;
+}
+.el-dialog {
+  border: 1px solid var(--color-accent);
+}
+.el-overlay {
+  background: rgba(0, 0, 0, 0.55) !important;
+}

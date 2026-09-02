@@ -1,6 +1,6 @@
 ---
 name: bi-dashboard-generator
-description: Use when the user asks to create or replicate a data visualization dashboard, BI cockpit, command center, monitoring wall, 数据看板, or large-screen看板; when they attach a dashboard screenshot or prototype to copy; when they mention 复刻 / 参考图 for a data screen; or when they provide a PRD or layout description for a data screen. If a document mixes dashboard and admin CRUD, only take the dashboard pages. Do not use for ordinary admin CRUD pages.
+description: Use when the user asks to create or replicate a data visualization dashboard, BI cockpit, command center, monitoring wall, 数据看板, or large-screen看板; when they attach a dashboard screenshot or prototype to copy; when they mention 复刻 / 参考图 / 抠皮肤 / 灯管 / 电路 for a data screen; when date-picker or dropdown text is unreadable on a dark dashboard; when org cards, mix grids, or inner card layout do not match a reference; or when they provide a PRD or layout description for a data screen. If a document mixes dashboard and admin CRUD, only take the dashboard pages. Do not use for ordinary admin CRUD pages.
 ---
 
 # 可视化大屏生成器
@@ -13,7 +13,7 @@ description: Use when the user asks to create or replicate a data visualization 
 
 | 层次 | 主题模式 | 复刻模式 |
 |---|---|---|
-| 静态展示 | ✅ 按 token 与模板完整生成 | ⚠️ **结构同构**：布局、字号档、图表类型、色相、壳叠层、锚点数字跟图。ECharts geo/灯管/电路密度 **未覆盖**，不承诺像素级 |
+| 静态展示 | ✅ 按 token 与模板完整生成 | ⚠️ **结构同构**：布局、**卡内分区/标题条形状**、字号档、图表类型、色相、壳叠层、锚点数字跟图。灯管/电路/六边形底纹 **未覆盖**。内容截图不是壳图，禁止抠皮 |
 | 页面交互 | ✅ HTML 内 mock 假交互 | ✅ 同左（点了什么跟确认单） |
 | 真实数据对接 | ⚠️ 仅字段名 + mock 开关占位，不是接口契约 | ⚠️ 同左 |
 | 工程化 | ⚠️ Vue 给骨架 | ⚠️ 同左；转 Vue 须与已复刻 HTML 1:1，禁止拉回玻璃脸 |
@@ -47,6 +47,7 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 4. 禁止套 `24% 1fr 24%` 或模板玻璃卡。
 5. 图表 series 跟图选模板，禁止默认面积折线。
 6. 写后同区块 `ref`/`proto` 截图并排；产品页不要 `?overlay=1`，review 不要扫像素脚本。
+7. **内容截图 ≠ 壳图**（图上能读出数字/公司名 → 禁止抠边、打洞、羽化、当 background 挖空）。灯管要像素级 → 停，请空壳/分层文件。确认单必须先选还原档：结构同构 / 空壳再铺框 / 走主题脸。
 
 **入口④ 需求文档**（产品经理主路径）：解析文档提取「页面清单 → 每页区块 → 区块指标与图表类型 → 交互（弹窗/穿透/筛选）」，输出解析确认单。**文档未写明的项（如图表类型）必须列入"缺失项"并给出建议，禁止静默猜测后直接生成。**
 
@@ -92,7 +93,7 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 2. 输出形式：单文件 HTML 原型（推荐，双击即看）/ Vue3 + Element Plus + ECharts + LESS + Pinia（Vite 构建）工程代码
 3. 分辨率基准：1920×1080（推荐）/ 其他
 
-用户在需求中已表明的不重复问。复刻模式不把「像素级还原」设成可选项；生成前用能力边界表说清未覆盖项。
+用户在需求中已表明的不重复问。复刻模式**必须先选还原档**（见 replica-mode 确认单），禁止默认当成像素级灯管；生成前用能力边界表说清未覆盖项。
 
 ### Step 3.5：骨架预览（复杂/多页项目建议先做，可跳过）
 
@@ -125,7 +126,7 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 **Vue 模式**：
 - 技术栈固定：**Vue3（Composition API）+ Element Plus + ECharts + LESS + Pinia，Vite 构建**；Element Plus 按需自动引入（unplugin-auto-import + unplugin-vue-components）
 - 基于 [templates/screen.vue](templates/screen.vue) 组织工程。**主题模式**可用 PanelBox 玻璃底；**复刻/已有 HTML 原型**时组件必须 1:1 跟原型，禁止用玻璃 PanelBox 把脸拉回去
-- 控件类 UI（下拉/日期选择/弹窗/表格分页）用 Element Plus；**深色主题必须用 token 覆盖其默认白底样式**
+- 控件类 UI（下拉/日期选择/弹窗/表格分页）用 Element Plus；深色覆盖**复制** [templates/element-dark.less](templates/element-dark.less)（或等价 CSS）。禁止只改「白底」：浮层默认灰字叠深蓝底、禁用月份看不清，同样算没覆盖
 - 全局状态用 Pinia：时间上下文（statMonth 模式）、筛选联动、refreshToken
 - 色值放 `variables.less` + `colors.js` 双 token；API 占位 + mock 开关 + 字段映射注释
 
@@ -144,7 +145,8 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 - [ ] mock 符合量级规则；复刻时图上专名与账期未被改写
 - [ ] 动效克制；复刻时 KPI 形态跟图（翻牌不要强行 CountUp）
 - [ ] 能跑无头浏览器则：基准分辨率 + 至少 2 个其他分辨率；无横滚、无溢出、弹窗在画布内、无 JS 报错——贴输出。跑不了则手开 HTML 核同样项，并在审核写「未跑无头」
-- [ ] 有参考图：同区块并排 + 视觉差清单（每块一条可核对差或「未覆盖」）
+- [ ] 有参考图：同区块并排 + 视觉差清单（每块一条可核对差或「未覆盖」）。**没有 ref/proto 并排不得勾此项**
+- [ ] Vue：打开 date-picker / select，浮层文字可读（不只「不是白底」）
 
 Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」。
 
@@ -160,9 +162,12 @@ Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」
 
 **门禁**
 - **结构 / 字号档 / 图表类型 / 锚点 / 换皮 / JS 报错**：P0/P1 当场修（能力边界「未覆盖」除外），已授权生成本次产物后不必再等一次 `go`
-- **材质类 P2**（光晕、灯管、电路密度、ECharts 地图材质）：标「未覆盖」后 **停止改皮肤**，禁止靠打磨 P2 换「通过且无差」
+- **材质类 P2**（光晕、灯管、电路密度、六边形底纹、ECharts 地图材质）：标「未覆盖」后 **停止改皮肤**，禁止抠皮换「通过且无差」
+- **卡内结构是 P0 不是 P2**：二级公司卡分区、标题条形状（梯形/匾）、动销四格、量价表行列。用户说「样式差距大」先对卡内结构，禁止先去抠灯管
 - 用户说「不要再打磨 / 停 / 换模型」：禁止再改 CSS 与图表皮肤
 - 有任意 **P0** 修不掉：禁止说「已完成 / 可以交付」
+- 无 `ref`/`proto` 并排、或 Vue 节未填：禁止写通过。未跑无头须写明，但仍须手裁并排
+- 用户说差距大之后，禁止改口「灯管是 P2 未覆盖所以算过」
 - 改完追加「复审」节；P0 仍在则不得声称完成
 - 项目「无 go 不改文件」只约束尚未授权生成本次产物的阶段
 
@@ -180,7 +185,7 @@ Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」
 ## 硬性规则（任何模式必须遵守）
 
 1. **色值只取自所选主题的 token 表**，禁止自造颜色、禁止 ECharts 默认配色
-2. **深色主题禁止白底元素**（含 tooltip、弹窗、下拉），一律用主题面板色
+2. **深色主题禁止白底元素**（含 tooltip、弹窗、下拉），也禁止深蓝底上用 Element 默认灰字。浮层须覆盖 datepicker 文字/面板/禁用态，见 `templates/element-dark.less`
 3. 涨跌色与排名色**严格解耦**：涨跌只表方向（红涨绿跌可按主题配置），排名用金/橙/黄系，同一元素不得同时承担两种语义
 4. 数值 `>0` 涨色、`<0` 跌色、`=0` 平色、`null` 显示"—"且不着色
 5. 字体：标题可用装饰性字体（如优设标题黑），正文一律系统字体栈
@@ -189,17 +194,18 @@ Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」
 8. 交付的 HTML **零本地依赖**（ECharts 走 CDN），双击可打开。审核用的 Playwright 脚本放 `review/`，不打进 HTML
 9. 解析需求文档/参考图时，**图片的布局精度高于文字转译**；文档内部矛盾必须列入疑点清单，禁止静默选择
 10. 多页/穿透类项目必须遵守 [mock-data-rules.md](mock-data-rules.md) 的「数据一致性引擎」
-11. 有参考图时必须遵守 [replica-mode.md](replica-mode.md)：**结构同构，不承诺像素级**。禁止套主题默认脸、禁止把低清拉伸 gutter 当真实尺寸、禁止审核只写「已同构」
+11. 有参考图时必须遵守 [replica-mode.md](replica-mode.md)：**结构同构，不承诺像素级**。禁止套主题默认脸、禁止把低清拉伸 gutter 当真实尺寸、禁止审核只写「已同构」。**禁止从带数字的内容截图抠边/打洞当壳**
 12. 本 Skill 只出确认单、HTML 原型与对接占位（字段名 + mock 开关）；不出路径 / 错误码 / DDL 全文、不拆开发模块。转 Vue 须对方已有已审核开发计划。后续数据模型 / 设计契约 / 开发计划交回 `requirements-to-dev`。对方未安装则停，不要空口假装已交接。
 
 ## 参考文件
 
-- [replica-mode.md](replica-mode.md) —— 复刻：鉴定源图、原图 clip、壳/内容分开、写后同区块并排
+- [replica-mode.md](replica-mode.md) —— 复刻：鉴定源图、内容截图≠壳图、还原档、卡内结构 vs 材质
 - [themes.md](themes.md) —— 主题 token 表（色彩/字体/字号，深色 BI + 浅色简约）
 - [layout-patterns.md](layout-patterns.md) —— 布局骨架（**仅主题模式默认值**）、组件清单、屏幕适配
 - [chart-patterns.md](chart-patterns.md) —— ECharts 模板（含柱+线 / 堆叠柱+线 / geo 地图）
 - [mock-data-rules.md](mock-data-rules.md) —— mock 规则；复刻须照搬图上专名与账期
 - [templates/screen.html](templates/screen.html) —— 主题模式 HTML 骨架（复刻禁用其脸）
 - [templates/screen.vue](templates/screen.vue) —— Vue3 工程骨架
+- [templates/element-dark.less](templates/element-dark.less) —— Element Plus 深色浮层（文字对比，不只禁白底）
 - [review-checklist.md](review-checklist.md) —— Step 5.5 审核清单
 - [scripts/inspect-source.js](scripts/inspect-source.js) —— 鉴定参考图像素与格式（从本 Skill 根目录运行，不要写死编辑器路径）

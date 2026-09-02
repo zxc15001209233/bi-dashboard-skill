@@ -7,7 +7,7 @@
  * ├── main.js                 ← createApp + 注册 Pinia（Element Plus 组件按需引入，无需全量注册）
  * ├── store/                  ← Pinia store：时间上下文（statMonth）、筛选联动、refreshToken 广播
  * ├── styles/variables.less   ← 主题 token（LESS 变量，themes.md 对应表）
- * ├── styles/element-dark.less ← Element Plus 深色覆盖（下拉面板/输入框/弹窗/date-picker 浮层，禁白底）
+ * ├── styles/element-dark.less ← 从本 Skill `templates/element-dark.less` 复制；禁白底且浮层文字必须可读
  * ├── config/colors.js        ← 语义色 JS 常量（ECharts 用，与 LESS 同源镜像）
  * ├── composables/useScreenAdapt.js  ← 整页缩放适配（默认拉伸铺满，见 layout-patterns.md）
  * ├── components/
