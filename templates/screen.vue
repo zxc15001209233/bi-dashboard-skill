@@ -22,6 +22,7 @@
  * 规则：
  * - 组件不得写死色值，CSS 引 LESS 变量、ECharts 引 colors.js 常量
  * - 已引入 Element Plus 就必须用：el-input / el-select / el-button / el-dialog / el-table 等；禁止原生 input 或自绘下拉顶替。HTML 同构只管分区图表，不管控件实现
+ * - Dialog :teleported=false 后跟 templates/element-dark.less：overlay-dialog flex 居中；禁止 .el-dialog { margin: 0 }；改高度的按钮用 inline-flex 垂直居中
  * - 跨组件共享状态（时间、筛选）一律走 Pinia store，禁止 props 层层透传
  */
 import { ref, onMounted } from 'vue'

@@ -90,3 +90,30 @@
 .el-overlay {
   background: rgba(0, 0, 0, 0.55) !important;
 }
+
+/* 整页 transform:scale + Dialog :teleported=false：按画布居中，不要视口 fixed，不要清掉 margin:auto */
+#screen .el-overlay {
+  position: absolute;
+  inset: 0;
+}
+#screen .el-overlay-dialog {
+  position: absolute !important;
+  inset: 0;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+#screen .el-dialog.is-align-center,
+#screen .el-dialog {
+  margin: auto !important;
+}
+
+/* 改高度后仍垂直居中；项目若覆盖 height，保留 inline-flex，勿只改 line-height */
+.el-button,
+.el-radio-button__inner {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

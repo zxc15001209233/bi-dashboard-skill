@@ -32,6 +32,8 @@
 - 控制台有未捕获 JS 报错（含切换筛选、打开弹窗、改窗口大小）
 - 深色主题出现白底控件（tooltip / 弹窗 / **下拉浮层** / date-picker），**或**深蓝底上默认灰字导致月份/选项看不清
 - 弹窗、遮罩、toast 不在缩放画布内，或 Esc/遮罩无法关掉导致错位
+- Vue：`#screen` 内 Dialog 不在画布**正中**（`.el-overlay-dialog` 未 flex 居中，或 `.el-dialog`/`hud-dlg` 写了 `margin: 0` 盖掉 `align-center`）
+- Vue：改过高度的 `el-button` / `el-radio-button` 文字未在盒内垂直居中（须 `inline-flex` + `align-items: center`，禁止只改 `height`/`line-height`）
 - 审核报告复述 Step 5 勾选、没有对照确认单/参考图的具体差异
 - 有参考图时：审核没有「区块视觉差清单」，清单为空，或**每一块都只写「该块已同构」**却写通过
 - 有参考图时：只交恒等式 / `js-errors none` / 无横滚，未并排看图
@@ -52,7 +54,7 @@
 ### P0
 
 - 弹窗/遮罩/toast 不在 `#screen`（或等价画布）内
-- `transform: scale` 后弹窗不随画布居中
+- `transform: scale` 后弹窗不随画布**正中**（在画布内但贴边/偏上不算居中）
 - 地图/图表 CDN 失败后，再切筛选仍对已销毁实例调 `setOption`/`resize`（会抛错）
 - 双击打开的路径依赖未写清，且失败时整页白屏（数字区也应还能看）
 
@@ -90,6 +92,8 @@
 - 工程已 `app.use(ElementPlus)`（或等价引入），但顶栏/查询区仍是原生 `input`/`select`/`button` 或自绘 `.dd` 下拉
 - Element Plus 未配 `zh-cn`（或 `el-config-provider` 中文）却使用了 EP 控件（空态/分页仍是英文）
 - Element Plus 深色主题下，下拉面板 / 输入框 / Dialog / DatePicker 浮层仍是默认白底，**或**浮层深蓝底但文字对比不足（须复制 `templates/element-dark.less` 或等价变量）
+- `#screen` 内 Dialog 不在画布正中，或 `.el-dialog` 被写成 `margin: 0` 盖掉 `align-center`
+- 改过高度的 `el-button` / `el-radio-button` 文字未垂直居中
 - LESS 变量与 `colors.js` 色值对不上（同源镜像被破坏）
 - 跨页/跨组件时间或筛选靠 props 层层传，未走 Pinia（确认单要求全局联动时）
 
@@ -99,6 +103,8 @@
 - API 占位无 mock 开关、无字段映射注释
 - `resize` 未在窗口变化时调用，或组件卸载未 `dispose` 图表
 - 深色覆盖只写了页面、没收浮层 teleport 到 body 的节点（整页 `transform: scale` 时 Select/Dialog/Message 须 `:teleported="false"` 或挂到 `#screen`）
+- `:teleported="false"` 了但 Dialog 仍不居中（未抄 `templates/element-dark.less` 的 `#screen .el-overlay-dialog` flex，或 HUD 把 `margin: auto` 清成 `0`）
+- 改过高度的按钮/单选文字偏上或偏下
 
 ### P2
 
@@ -111,6 +117,7 @@
 
 - 贴 `npm run dev` 能打开的 URL，或贴启动失败日志
 - 打开一处 `el-select` / `el-date-picker` 截图，证明浮层不是白底 **且月份/选项文字可读**；顶栏与查询区 DOM 是 `el-input`/`el-select`/`el-button`，不是原生框
+- 打开 Dialog 截图：在 `#screen` 正中；改高度的 `el-radio-button`/`el-button` 文字垂直居中
 - 与 HTML 原型同分辨率截图并排，列差异
 
 ---

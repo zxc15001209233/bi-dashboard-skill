@@ -128,8 +128,8 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 - 基于 [templates/screen.vue](templates/screen.vue) 组织工程。**主题模式**可用 PanelBox 玻璃底；**复刻/已有 HTML 原型**时**分区/卡内结构/图表/色相**跟原型，禁止用玻璃 PanelBox 把脸拉回去
 - **已引入 Element Plus 就必须用它（Vue 工程，不管 HTML 原型）**：HTML 原型允许原生 `input`/`select`/`button`（零依赖），**已生成的 HTML 不必为对齐 EP 再改**。转 Vue 后，只要工程 `import` / `app.use` 了 `element-plus`，凡有对应组件的交互控件必须用 EP：`el-input`、`el-select`、`el-button`、`el-dialog`、`el-table`、`el-radio-group`、`el-date-picker` 等。禁止只 `app.use(ElementPlus)` 却继续用原生输入框、自绘 `.dd` 下拉、原生 `button` 顶替。HTML 同构**不是**把原型里的原生控件拷进 Vue。借口「跟 HTML 1:1 所以不用 EP」不成立。
 - 语言包：`locale: zh-cn`（或根上 `el-config-provider`）与 EP 控件一起做，禁止只注册组件不汉化。
-- 整页 `transform: scale` 时，Select/DatePicker/Dialog 浮层 `:teleported="false"` 或挂到 `#screen`，禁止默认挂 `body` 导致错位。
-- 深色覆盖**复制** [templates/element-dark.less](templates/element-dark.less)（或等价 CSS）。禁止只改「白底」：浮层默认灰字叠深蓝底、禁用月份看不清，同样算没覆盖
+- 整页 `transform: scale` 时，Select/DatePicker/Dialog 浮层 `:teleported="false"` 或挂到 `#screen`，禁止默认挂 `body` 导致错位。**挂进画布仍不够**：`#screen` 内 `.el-overlay` 相对画布 `absolute; inset:0`；`.el-overlay-dialog` 用 flex 水平垂直居中（不要按视口 `fixed`）；**禁止**给 `.el-dialog` / `.hud-dlg` 写 `margin: 0` 盖掉 `align-center` 的 `margin: auto`。改 EP 控件高度时，`el-button` / `el-radio-button__inner` 用 `inline-flex` + `align-items: center`，禁止只改 `height`/`line-height`。
+- 深色覆盖**复制** [templates/element-dark.less](templates/element-dark.less)（或等价 CSS）。禁止只改「白底」：浮层默认灰字叠深蓝底、禁用月份看不清，同样算没覆盖。模板已含画布内 Dialog 居中与按钮垂直居中，复制后不要再清 `margin: auto`
 - 全局状态用 Pinia：时间上下文（statMonth 模式）、筛选联动、refreshToken
 - 色值放 `variables.less` + `colors.js` 双 token；API 占位 + mock 开关 + 字段映射注释
 
@@ -150,6 +150,7 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 - [ ] 能跑无头浏览器则：基准分辨率 + 至少 2 个其他分辨率；无横滚、无溢出、弹窗在画布内、无 JS 报错——贴输出。跑不了则手开 HTML 核同样项，并在审核写「未跑无头」
 - [ ] 有参考图：同区块并排 + 视觉差清单（每块一条可核对差或「未覆盖」）。**没有 ref/proto 并排不得勾此项**
 - [ ] Vue：打开 date-picker / select，浮层文字可读（不只「不是白底」）；顶栏与查询区实际是 `el-input`/`el-select`/`el-button`，不是原生框或自绘下拉
+- [ ] Vue：打开 Dialog（进入提示/明细）在 `#screen` **正中**；改过高度的 `el-button` / `el-radio-button` 文字在盒内垂直居中
 
 Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」。
 

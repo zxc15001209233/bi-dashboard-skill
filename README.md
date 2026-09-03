@@ -81,7 +81,7 @@ Agent 能读到本 Skill 后即可描述需求，例如：
 
 大屏确认单 / 原型完成后，若还要数据模型、接口契约或开发计划，交回 `requirements-to-dev`（先读对方 `SKILL.md`；未安装则停）。本 Skill 只留字段名 + mock 开关占位，不出路径 / 错误码 / DDL，不拆开发模块。文档同时含大屏与中后台时，本 Skill 只做大屏页。
 
-自检之后还有 **独立审核（Step 5.5）**：对照确认单和参考图找不一致，结论写到生成物同级 `review/`，不写进设计说明。结构/字号/图表类型/锚点/卡内分区当场修；灯管电路标未覆盖后停止打磨，禁止从内容截图抠皮。清单见 `review-checklist.md`。细则见 `replica-mode.md`。Vue 深色浮层复制 `templates/element-dark.less`。
+自检之后还有 **独立审核（Step 5.5）**：对照确认单和参考图找不一致，结论写到生成物同级 `review/`，不写进设计说明。结构/字号/图表类型/锚点/卡内分区当场修；灯管电路标未覆盖后停止打磨，禁止从内容截图抠皮。清单见 `review-checklist.md`。细则见 `replica-mode.md`。Vue 深色浮层复制 `templates/element-dark.less`（含 `#screen` 内 Dialog flex 居中、改高度按钮 `inline-flex` 垂直居中；`:teleported="false"` 后禁止再给 `.el-dialog` 写 `margin: 0`）。
 
 ## 输出格式
 
