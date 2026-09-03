@@ -86,7 +86,9 @@
 ### P0
 
 - 只有 `screen.vue` 注释、缺 `package.json` / `vite.config` / `variables.less` / `colors.js` / `useScreenAdapt` / 面板与图表组件，**不能 `npm i && npm run dev` 跑起来**
-- 有 HTML 原型时：区块、栅格比例、指标、交互与原型不是 1:1（含把复刻 HTML 拉回玻璃 PanelBox）
+- 有 HTML 原型时：区块、栅格比例、指标、交互与原型不是 1:1（含把复刻 HTML 拉回玻璃 PanelBox）。**例外**：Vue 的输入/下拉/按钮/对话框/表必须用 Element Plus，不得为「跟 HTML 原生控件 1:1」而拒绝 EP
+- 工程已 `app.use(ElementPlus)`（或等价引入），但顶栏/查询区仍是原生 `input`/`select`/`button` 或自绘 `.dd` 下拉
+- Element Plus 未配 `zh-cn`（或 `el-config-provider` 中文）却使用了 EP 控件（空态/分页仍是英文）
 - Element Plus 深色主题下，下拉面板 / 输入框 / Dialog / DatePicker 浮层仍是默认白底，**或**浮层深蓝底但文字对比不足（须复制 `templates/element-dark.less` 或等价变量）
 - LESS 变量与 `colors.js` 色值对不上（同源镜像被破坏）
 - 跨页/跨组件时间或筛选靠 props 层层传，未走 Pinia（确认单要求全局联动时）
@@ -96,7 +98,7 @@
 - 屏幕适配不是整页 `transform: scale`（或用户要求的等比留边）
 - API 占位无 mock 开关、无字段映射注释
 - `resize` 未在窗口变化时调用，或组件卸载未 `dispose` 图表
-- 深色覆盖只写了页面、没收浮层 teleport 到 body 的节点
+- 深色覆盖只写了页面、没收浮层 teleport 到 body 的节点（整页 `transform: scale` 时 Select/Dialog/Message 须 `:teleported="false"` 或挂到 `#screen`）
 
 ### P2
 
@@ -108,7 +110,7 @@
 ### 建议取证
 
 - 贴 `npm run dev` 能打开的 URL，或贴启动失败日志
-- 打开一处 `el-select` / `el-date-picker` 截图，证明浮层不是白底 **且月份/选项文字可读**
+- 打开一处 `el-select` / `el-date-picker` 截图，证明浮层不是白底 **且月份/选项文字可读**；顶栏与查询区 DOM 是 `el-input`/`el-select`/`el-button`，不是原生框
 - 与 HTML 原型同分辨率截图并排，列差异
 
 ---

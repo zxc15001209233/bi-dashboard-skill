@@ -59,7 +59,7 @@ Agent 能读到本 Skill 后即可描述需求，例如：
    ↓
 （可选）转 Vue3 + Element Plus + ECharts + LESS + Pinia 工程代码
    ↓
-再审 Vue（能跑起来、与 HTML 1:1、深色浮层不穿帮）
+再审 Vue（能跑起来、分区图表跟 HTML、控件用 Element Plus、深色浮层不穿帮）
 ```
 
 小白用户只需要说清楚"这是给谁看的、想看到什么数据"，布局、配色、图表选型全部由 skill 内置规范兜底。

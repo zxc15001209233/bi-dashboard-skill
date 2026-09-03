@@ -16,7 +16,7 @@ description: Use when the user asks to create or replicate a data visualization 
 | 静态展示 | ✅ 按 token 与模板完整生成 | ⚠️ **结构同构**：布局、**卡内分区/标题条形状**、字号档、图表类型、色相、壳叠层、锚点数字跟图。灯管/电路/六边形底纹 **未覆盖**。内容截图不是壳图，禁止抠皮 |
 | 页面交互 | ✅ HTML 内 mock 假交互 | ✅ 同左（点了什么跟确认单） |
 | 真实数据对接 | ⚠️ 仅字段名 + mock 开关占位，不是接口契约 | ⚠️ 同左 |
-| 工程化 | ⚠️ Vue 给骨架 | ⚠️ 同左；转 Vue 须与已复刻 HTML 1:1，禁止拉回玻璃脸 |
+| 工程化 | ⚠️ Vue 给骨架 | ⚠️ 同左；转 Vue 分区/图表跟 HTML，**控件必须用 Element Plus**；禁止拉回玻璃脸 |
 
 ## 工作流程
 
@@ -125,8 +125,11 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 
 **Vue 模式**：
 - 技术栈固定：**Vue3（Composition API）+ Element Plus + ECharts + LESS + Pinia，Vite 构建**；Element Plus 按需自动引入（unplugin-auto-import + unplugin-vue-components）
-- 基于 [templates/screen.vue](templates/screen.vue) 组织工程。**主题模式**可用 PanelBox 玻璃底；**复刻/已有 HTML 原型**时组件必须 1:1 跟原型，禁止用玻璃 PanelBox 把脸拉回去
-- 控件类 UI（下拉/日期选择/弹窗/表格分页）用 Element Plus；深色覆盖**复制** [templates/element-dark.less](templates/element-dark.less)（或等价 CSS）。禁止只改「白底」：浮层默认灰字叠深蓝底、禁用月份看不清，同样算没覆盖
+- 基于 [templates/screen.vue](templates/screen.vue) 组织工程。**主题模式**可用 PanelBox 玻璃底；**复刻/已有 HTML 原型**时**分区/卡内结构/图表/色相**跟原型，禁止用玻璃 PanelBox 把脸拉回去
+- **已引入 Element Plus 就必须用它（Vue 工程，不管 HTML 原型）**：HTML 原型允许原生 `input`/`select`/`button`（零依赖），**已生成的 HTML 不必为对齐 EP 再改**。转 Vue 后，只要工程 `import` / `app.use` 了 `element-plus`，凡有对应组件的交互控件必须用 EP：`el-input`、`el-select`、`el-button`、`el-dialog`、`el-table`、`el-radio-group`、`el-date-picker` 等。禁止只 `app.use(ElementPlus)` 却继续用原生输入框、自绘 `.dd` 下拉、原生 `button` 顶替。HTML 同构**不是**把原型里的原生控件拷进 Vue。借口「跟 HTML 1:1 所以不用 EP」不成立。
+- 语言包：`locale: zh-cn`（或根上 `el-config-provider`）与 EP 控件一起做，禁止只注册组件不汉化。
+- 整页 `transform: scale` 时，Select/DatePicker/Dialog 浮层 `:teleported="false"` 或挂到 `#screen`，禁止默认挂 `body` 导致错位。
+- 深色覆盖**复制** [templates/element-dark.less](templates/element-dark.less)（或等价 CSS）。禁止只改「白底」：浮层默认灰字叠深蓝底、禁用月份看不清，同样算没覆盖
 - 全局状态用 Pinia：时间上下文（statMonth 模式）、筛选联动、refreshToken
 - 色值放 `variables.less` + `colors.js` 双 token；API 占位 + mock 开关 + 字段映射注释
 
@@ -146,7 +149,7 @@ Step 1 识别入口 → Step 2 输出方案确认单 → Step 3 确认主题与�
 - [ ] 动效克制；复刻时 KPI 形态跟图（翻牌不要强行 CountUp）
 - [ ] 能跑无头浏览器则：基准分辨率 + 至少 2 个其他分辨率；无横滚、无溢出、弹窗在画布内、无 JS 报错——贴输出。跑不了则手开 HTML 核同样项，并在审核写「未跑无头」
 - [ ] 有参考图：同区块并排 + 视觉差清单（每块一条可核对差或「未覆盖」）。**没有 ref/proto 并排不得勾此项**
-- [ ] Vue：打开 date-picker / select，浮层文字可读（不只「不是白底」）
+- [ ] Vue：打开 date-picker / select，浮层文字可读（不只「不是白底」）；顶栏与查询区实际是 `el-input`/`el-select`/`el-button`，不是原生框或自绘下拉
 
 Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」。
 
@@ -179,7 +182,7 @@ Step 5 **不能代替 Step 5.5**。禁止把自检勾选复述成「已完成」
 - 告知打开方式（HTML 双击；Vue `npm i && npm run dev`）
 - 用户口头改布局/指标：改后重新走 Step 5 + 5.5
 - 用户叫停打磨：进入本步，不要再改观感
-- 转 Vue：须 `requirements-to-dev` 已审核开发计划之后，与 HTML 1:1，再走 Step 5.5 Vue 节；计划未出则交回，禁止在本 Skill 内开工
+- 转 Vue：须 `requirements-to-dev` 已审核开发计划之后；分区/图表跟 HTML，**控件用 Element Plus**（见 Vue 模式），再走 Step 5.5 Vue 节；计划未出则交回，禁止在本 Skill 内开工
 - 用户还要数据模型、接口契约或开发计划：交回 `requirements-to-dev`，本 Skill 停在 HTML 原型与对接占位
 
 ## 硬性规则（任何模式必须遵守）
